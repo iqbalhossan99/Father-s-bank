@@ -24,13 +24,85 @@
 </head>
 
 <body>
+    <div class="container">
 
-    <h1>Father's Bank</h1>
-    <h2>Finally it's work. Now i am feel free.</h2>
+        <h1 class="text-center py-5">Father's Bank</h1>
+        <div class="bank">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="bank-left">
+                        <img class="left-img" src="resources/img/pexels-karolina-grabowska-4475523.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="bank-right">
+
+                        <!-- income -->
+                        <div class="income pt-4 pt-lg-0">
+                            <h4 class="text-center">Income</h4>
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Income</span>
+                                <input id="income-input" type="text" class="form-control"
+                                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                        </div>
+
+                        <!-- expenses -->
+                        <div class="expenses">
+                            <h4 class="text-center">Expenses</h4>
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Food</span>
+                                <input id="food-input" type="text" class="form-control"
+                                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Rent</span>
+                                <input id="rent-input" type="text" class="form-control"
+                                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Clothes</span>
+                                <input id="clothe-input" type="text" class="form-control"
+                                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+
+                            <!-- calculate-btn -->
+                            <div class="text-center">
+                                <button id="calculate-btn" type="button" class="btn btn-primary">Calculator</button>
+                            </div>
+                        </div>
+
+                        <!-- total expenses and balance -->
+                        <div class="text-center py-4">
+                            <h6 class="pb-3">Total Expenses: $<span id="expenses-total">00</span></h6>
+                            <h6> Balance: $<span id="balance-total">00</span></h6>
+                        </div>
+
+                        <!-- save money -->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Save</span>
+                            <input id="save-input" type="text" class="form-control" placeholder="Username"
+                                aria-label="Username">
+                            <span class="input-group-text">%</span>
+                            <button type="button" class="btn btn-primary">Save</button>
+
+                        </div>
+
+                        <div class="text-center py-4">
+                            <h6 class="pb-3">Saving Amount: $<span id="saving-total">100</span></h6>
+                            <h6> Remaining Balance: $<span id="remainig-balance-total">00</span></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
 
     <!-- js files -->
     <script src="resources/js/bootstrap.bundle.min.js"></script>
+    <script src="resources/js/script.js"></script>
 </body>
 
 </html>
