@@ -5,14 +5,23 @@ function getInputValue(input) {
     return inputFieldValue;
 }
 
-// pass all total amounts and showing the ui interface
-function getTotalAmount(total, amount) {
-    const totalAmount = document.getElementById(total + "-total");
-    let getPreviousTotal = parseFloat(totalAmount.innerText);
-    totalAmount.innerText = amount;
-    return getPreviousTotal;
+// get total amount id's to different place
+function getTotalAmount(getTotal) {
+    const getTotalAmountId = document.getElementById(getTotal + "-total");
+    let getTotalAmountValue = parseFloat(getTotalAmountId.innerText);
+    return getTotalAmountValue;
 
 }
+
+// pass all total amounts and showing the ui interface
+function showTotalAmount(showTotal, amount) {
+    const showTotalAmount = document.getElementById(showTotal + "-total");
+    let showPreviousTotalAmount = parseFloat(showTotalAmount.innerText);
+    showTotalAmount.innerText = amount;
+    return showPreviousTotalAmount;
+
+}
+
 
 // update total expenses
 function updateTotalExpenses() {
@@ -25,7 +34,7 @@ function updateTotalExpenses() {
         const totalExpenses = foodCost + rentCost + clotheCost;
 
         if (incomeAmount > totalExpenses) {
-            const updateTotalExpenses = getTotalAmount("expenses", totalExpenses);
+            const updateTotalExpenses = showTotalAmount("expenses", totalExpenses);
         } else {
             alert("Your income is lower than total expenses! You can't pass these amounts. Please enter the valid amount.");
         }
@@ -33,23 +42,24 @@ function updateTotalExpenses() {
         return totalExpenses;
 
     } else if (isNaN(foodCost) || foodCost < 0 || isNaN(rentCost) || rentCost < 0 || isNaN(clotheCost) || clotheCost < 0) {
-        alert("please enter the positive amounts!");
+        alert("please put the positive amounts in expenses field!");
 
     }
 
 }
 
+
 // update total balance
 function updateBalance() {
 
-    const getTotalExpenses = document.getElementById("expenses-total");
-    const totalExpensesAmount = parseFloat(getTotalExpenses.innerText);
+    const getTotalExpenses = getTotalAmount("expenses");
     const income = getInputValue("income");
+
     if (isNaN(income)) {
         alert("Please put the income amount!");
-    } else if (income > totalExpensesAmount) {
-        const totalBalance = income - totalExpensesAmount;
-        const updateTotalBalance = getTotalAmount("balance", totalBalance);
+    } else if (income > getTotalExpenses) {
+        const totalBalance = income - getTotalExpenses;
+        const updateTotalBalance = showTotalAmount("balance", totalBalance);
         return totalBalance;
     }
 }
@@ -57,41 +67,40 @@ function updateBalance() {
 
 // saving calculation
 function savingUpdate() {
-    const incomeForSaving = getInputValue('income');
-    const savingValue = getInputValue("saving");
-    const savingUpdate = (incomeForSaving * savingValue) / 100;
+    const incomeAmounts = getInputValue('income');
+    const savingInputValue = getInputValue("saving");
+    if (savingInputValue > 0 && !isNaN(savingInputValue)) {
+        const balanceTotal = getTotalAmount("balance");
+        const savingAmount = (incomeAmounts * savingInputValue) / 100;
+        if (balanceTotal > savingAmount) {
+            const updateSavingAmount = showTotalAmount("saving", savingAmount);
+        } else if (balanceTotal < savingAmount) {
+            alert("Didn't find enough money")
+        }
 
-    const balanceForSaving = document.getElementById("balance-total");
-    const parseBalanceForSaving = parseFloat(balanceForSaving.innerText);
 
-    if (parseBalanceForSaving > savingUpdate) {
-        const updateSavingNewAmounts = getTotalAmount("saving", savingUpdate);
-    } else if (parseBalanceForSaving < savingUpdate) {
-        alert("Didn't find enough money")
+        return savingAmount;
+    } else {
+        alert("Please put a valid number for percentage");
     }
-    return savingUpdate;
 }
 
 // remaining balance 
 function remainingBalance() {
-    const balance = document.getElementById("balance-total");
-    const parsesBalance = parseFloat(balance.innerText);
-    const getSavingTotal = document.getElementById("saving-total");
-    const parsesSavingTotal = parseFloat(getSavingTotal.innerText);
-    if (parsesBalance > parsesSavingTotal && parsesSavingTotal > 0) {
-        const remainingBalance = parsesBalance - parsesSavingTotal;
-        const updateRemainingBalance = getTotalAmount("remaining", remainingBalance);
+    const balanceTotal = getTotalAmount("balance");
+    const SavingTotal = getTotalAmount("saving");
+    if (SavingTotal < balanceTotal && SavingTotal > 0) {
+        const remainingBalance = balanceTotal - SavingTotal;
+        const updateRemainingBalance = showTotalAmount("remaining", remainingBalance);
     }
-
 }
 
 document.getElementById('calculate-btn').addEventListener('click', function () {
 
+    // total cost amount
+    const Expenses = updateTotalExpenses()
 
-    // total cost in a month
-    updateTotalExpenses()
-
-    // balance 
+    // total balance 
     const balance = updateBalance();
 
 })
@@ -100,10 +109,10 @@ document.getElementById('calculate-btn').addEventListener('click', function () {
 document.getElementById('saving-btn').addEventListener('click', function () {
 
     // saving
-    const newSavingAmount = savingUpdate();
+    const totalSavingAmount = savingUpdate();
 
 
     // remaining balance
-    remainingBalance()
+    const totalRemainingAmount = remainingBalance()
 
 })
