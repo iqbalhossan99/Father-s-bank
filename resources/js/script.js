@@ -2,9 +2,6 @@
 function getInputValue(input) {
     const inputField = document.getElementById(input + "-input");
     const inputFieldValue = parseFloat(inputField.value);
-    // clear input field
-    // inputField.value = '';
-
     return inputFieldValue;
 }
 
@@ -18,23 +15,39 @@ function getTotalAmount(total, amount) {
 }
 
 // update total expenses
-function updateTotalExpenses(food, rent, clothe) {
-    const totalExpenses = food + rent + clothe;
-    return totalExpenses;
+function updateTotalExpenses(food, rent, clothe, income) {
+
+    if (food >= 0 && rent >= 0 && clothe >= 0 && income >= 0) {
+        const totalExpenses = food + rent + clothe;
+        if (income > totalExpenses) {
+            const updateNewExpenses = getTotalAmount("expenses", totalExpenses);
+        } else {
+            alert("your income is lower than to totalExpenses!. Enter the valid amount.");
+        }
+        return totalExpenses;
+    } else if (isNaN(food) || food < 0 || isNaN(rent) || rent < 0 || isNaN(clothe) || clothe < 0) {
+        alert("please enter the positive amounts!");
+
+    }
+
 }
 
 // update total balance
 function updateBalance(income, totalCost) {
-    const totalBalance = income - totalCost;
-    return totalBalance;
-
+    if (isNaN(income)) {
+        alert("Please put the income amount!");
+    } else if (income > totalCost) {
+        const totalBalance = income - totalCost;
+        const updateNewBalance = getTotalAmount("balance", totalBalance);
+        return totalBalance;
+    }
 }
 
 
 // saving calculation
 function savingUpdate(income, saving) {
     const savingUpdate = (income * saving) / 100;
-    // console.log(savingUpdate);
+
     return savingUpdate;
 }
 
@@ -51,12 +64,12 @@ document.getElementById('calculate-btn').addEventListener('click', function () {
     const clothe = getInputValue("clothe");
 
     // total cost in a month
-    const totalCost = updateTotalExpenses(food, rent, clothe);
-    const updateNewExpenses = getTotalAmount("expenses", totalCost);
+    const totalCost = updateTotalExpenses(food, rent, clothe, income);
+    // const updateNewExpenses = getTotalAmount("expenses", totalCost);
 
     // balance 
     const balance = updateBalance(income, totalCost);
-    const updateNewBalance = getTotalAmount("balance", balance);
+    // const updateNewBalance = getTotalAmount("balance", balance);
 
 })
 
@@ -65,33 +78,11 @@ document.getElementById('saving-btn').addEventListener('click', function () {
 
     const incomeForSaving = getInputValue('income');
     const savingValue = getInputValue("saving");
+
     const newSavingAmount = savingUpdate(incomeForSaving, savingValue);
-    const updateSavingAmount = getTotalAmount('saving', newSavingAmount)
+    const updateNewSaving = getTotalAmount("saving", newSavingAmount);
 
 
-    // remaining balance
-    // const remainingBalance = updateBalance() - savingUpdate();
-    // console.log(remainingBalance);
 
-    const getCurrentTotalBalance = document.getElementById('balance-total').innerText;
-    const convertedTotalBalance = parseFloat(getCurrentTotalBalance);
-    console.log(convertedTotalBalance)
-    const getCurrentTotalBalanceSaving = document.getElementById('saving-total').innerText;
-    const convertedTotalBalanceSaving = parseFloat(getCurrentTotalBalanceSaving);
-    console.log(convertedTotalBalanceSaving)
-
-    const RemainingAmount = convertedTotalBalance - convertedTotalBalanceSaving;
-
-    console.log(RemainingAmount);
-    const updateSavingAmounts = getTotalAmount('remaining', RemainingAmount)
-
-    // const getCurrentTotalBalance = getTotalAmount('balance');
-    // console.log(getCurrentTotalBalance)
-    // const getCurrentTotalBalanceSaving = getTotalAmount('saving');
-    // console.log(getCurrentTotalBalanceSaving)
-
-
-    // const remainingTotal = getCurrentTotalBalance - getCurrentTotalBalanceSaving;
-    // console.log(remainingTotal);
 
 })
